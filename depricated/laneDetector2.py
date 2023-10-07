@@ -13,7 +13,6 @@ Kd = 0.00205
 
 p = PID(Kp, Ki, Kd, setpoint=0)
 p.output_limits = (-0.3, 0.3)
-v = 0
 
 deviationBuffer = []
 lowpass = f.butter(3, 0.85, output='sos')
@@ -22,8 +21,6 @@ stream = cv2.VideoCapture(2, cv2.CAP_DSHOW)
 stream.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 gamepad = vg.VX360Gamepad()
-
-gamepad.press_button(button=vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
 gamepad.update()
 
 def pipeline(rawImage, v):
