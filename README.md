@@ -3,7 +3,7 @@
 
 This project is a pretty simple OpenCV based implementation of ADAS in the game [BeamNG.drive](https://www.beamng.com/game/).
 
-![A functional diagram of the ADAS system](./docs/ADAS.svg)
+![A functional diagram of the ADAS system](./docs/ADAS.png)
 
 
 # Libaries
