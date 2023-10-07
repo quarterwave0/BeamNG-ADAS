@@ -1,0 +1,1 @@
+Images and materials used in the main README.md
