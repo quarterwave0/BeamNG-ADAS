@@ -48,11 +48,12 @@ def laneDraw(laneBoundaries, filtImg, guidanceDots, smoothingFactor, transformMa
         pointsLFlip = np.flipud(pointsR)
         fillPts = np.concatenate((pointsL, pointsLFlip))
 
-        polyFrame = cv2.fillPoly(polyFrame, [fillPts], color=(127, 127, 0,))
+        if not guidanceDots:
+            polyFrame = cv2.fillPoly(polyFrame, [fillPts], color=(127, 127, 0,))
 
-        polyFrame = cv2.polylines(polyFrame, [pointsM], isClosed=False, color=(127, 0, 127), thickness=5)
-        polyFrame = cv2.polylines(polyFrame, [pointsL], isClosed=False, color=(0, 0, 127), thickness=5)
-        polyFrame = cv2.polylines(polyFrame, [pointsR], isClosed=False, color=(127, 0, 0), thickness=5)
+            polyFrame = cv2.polylines(polyFrame, [pointsM], isClosed=False, color=(127, 0, 127), thickness=5)
+            polyFrame = cv2.polylines(polyFrame, [pointsL], isClosed=False, color=(0, 0, 127), thickness=5)
+            polyFrame = cv2.polylines(polyFrame, [pointsR], isClosed=False, color=(127, 0, 0), thickness=5)
 
     expandedFrame = cv2.warpPerspective(polyFrame, np.linalg.inv(transformMatrix), (cropImg.shape[1], cropImg.shape[0]))
     appliedRetLanesFrame = cv2.addWeighted(cropImg, 0.5, expandedFrame, 1.0, 0.0)
