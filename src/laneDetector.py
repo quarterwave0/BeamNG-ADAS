@@ -4,7 +4,6 @@ def laneDetection(image, sliceWidth):
 
     # Histogram computation
     laneBoundaries = []  # [ [leftIndex, rightIndex, midIndex, RowIndex] ]
-    #sliceWidth = 10
 
     for i in range(900 // sliceWidth):
         sliceFrame = image[i * sliceWidth:i * sliceWidth + sliceWidth]
@@ -15,14 +14,18 @@ def laneDetection(image, sliceWidth):
         except:
             maxL = 0
 
+
         try:
             maxR = np.min(np.argwhere(histo[400:800] > 10)) + 400  # find the leftmost value that is above ten
         except:
             maxR = 0
 
-        maxMid = (maxL + maxR) // 2
+        print(maxL, maxR)
+        if(maxL < maxR and abs(maxL-maxR)>90 and abs(maxL-maxR)<800 and maxL < 1060 and maxR > 460):
 
-        laneBoundaries.append([maxL, maxR, maxMid, i * sliceWidth])
+            maxMid = (maxL + maxR) // 2
+
+            laneBoundaries.append([maxL, maxR, maxMid, i * sliceWidth])
 
     return laneBoundaries
 
@@ -33,14 +36,14 @@ if __name__ == '__main__':
 
     # stream = cv2.VideoCapture('../dataset/lane1-CA.mp4')
     # stream = cv2.VideoCapture('../dataset/lane2-CA.mp4')
-    # stream = cv2.VideoCapture('../dataset/lane3-CA.mp4')
+    # stream = cv2.VideoCapture('../dataset/lane3-CA.mp4')rj
     # stream = cv2.VideoCapture('../dataset/lane4-CA.mp4')
     stream = cv2.VideoCapture('../dataset/rl-EA.mp4')
 
     while True:
         ret, frame = stream.read()
 
-        filteredFrame, croppedFrame, transformationMatrix = imgFilter(frame, 400)
+        filteredFrame, croppedFrame, transformationMatrix = imgFilter(frame, 410)
 
         laneBoundaries = laneDetection(filteredFrame, 10)
 

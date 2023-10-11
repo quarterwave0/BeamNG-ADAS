@@ -1,10 +1,10 @@
 import cv2
 import numpy as np
 
-whiteLower = np.array([0, 0, 220])
-whiteUpper = np.array([80, 10, 255])
+whiteLower = np.array([0, 0, 170]) #v 220
+whiteUpper = np.array([80, 10, 255]) #s 2 for wcusa
 
-shadowLower = np.array([90, 15, 190])
+shadowLower = np.array([90, 15, 170]) #190
 shadowUpper = np.array([179, 255, 255])
 
 #yellowLower = np.array([15, 90, 130])
@@ -18,7 +18,7 @@ def imgFilter(rawImage, pinch):
     croppedImage = rawImage[500:700, 200:1720]
 
     # Transform
-    transformFrame = np.float32([[1220, 200], [300, 200], [300 + pinch, 10], [1220 - pinch, 10]]) # todo: more customization for this
+    transformFrame = np.float32([[1250, 200], [270, 200], [300 + pinch, 10], [1220 - pinch, 10]]) # todo: more customization for this
 
     transformationMatrix = cv2.getPerspectiveTransform(transformFrame, targetFrame)
     transformedFrame = cv2.warpPerspective(croppedImage, transformationMatrix, (800, 900))

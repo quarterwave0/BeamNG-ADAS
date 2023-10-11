@@ -3,16 +3,15 @@ import numpy as np
 from scipy import signal as f
 import vgamepad as vg
 
-#Kp = 0.0057
 Kp = 0.006
-Ki = 0.0006
-Kd = 0.00255
+Ki = 0.00175
+Kd = 0.0
 
 p = PID(Kp, Ki, Kd, setpoint=0)
-p.output_limits = (-0.35, 0.35)
+p.output_limits = (-0.45, 0.45)
 
 deviationBuffer = []
-lowpass = f.butter(3, 0.85, output='sos')
+lowpass = f.butter(3, 0.75, output='sos') #0.85
 
 gamepad = vg.VX360Gamepad()
 gamepad.update()
@@ -26,7 +25,8 @@ def laneCentering(laneBoundaries, target, v):
             midpoints.append(set[2])
 
     # Optimization target
-    deviation = np.mean(midpoints) - target  # target of 400
+    halfway = len(midpoints) // 2
+    deviation = np.mean(midpoints[0:halfway]) - target  # target of 400, midscreen
 
     if not np.isnan(deviation):
 
@@ -44,15 +44,6 @@ def laneCentering(laneBoundaries, target, v):
 
         gamepad.update()
         vn = filteredBuffer[0]
-
-        # if(deviation<-15):
-        #     print(deviation, "deviating left")
-        #     gamepad.left_joystick_float(x_value_float=0.3, y_value_float=0.0)
-        #     gamepad.update()
-        # elif (deviation>15):
-        #     print(deviation, "deviating right")
-        #     gamepad.left_joystick_float(x_value_float=-0.3, y_value_float=0.0)
-        #     gamepad.update()
 
     else:
         vn = v

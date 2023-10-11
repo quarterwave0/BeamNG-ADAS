@@ -13,7 +13,7 @@ stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 pinch = 400
 
 # Lane detector parameters
-sliceWidth = 10
+sliceWidth = 35
 
 # Lane centering global
 v = 0
@@ -32,9 +32,6 @@ while True:
     v = vn
 
     polyFrame, lanes = laneDraw(laneBoundaries, filteredFrame, False, 90000, transformationMatrix, croppedFrame)
-
-    #lanes, points, c, b, vn = pipeline(frame, v)
-    #v = vn
 
     cv2.imshow('Lanes', lanes)
     cv2.setWindowProperty('Lanes', cv2.WND_PROP_TOPMOST, 1)
