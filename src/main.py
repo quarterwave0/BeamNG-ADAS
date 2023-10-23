@@ -15,9 +15,6 @@ pinch = 400
 # Lane detector parameters
 sliceWidth = 35
 
-# Lane centering global
-v = 0
-
 # Lane centering parameters
 targetPoint = 400
 
@@ -28,8 +25,7 @@ while True:
 
     laneBoundaries = laneDetection(filteredFrame, sliceWidth)
 
-    vn = laneCentering(laneBoundaries, targetPoint, v)
-    v = vn
+    laneCentering(laneBoundaries, targetPoint)
 
     polyFrame, lanes = laneDraw(laneBoundaries, filteredFrame, False, 90000, transformationMatrix, croppedFrame)
 

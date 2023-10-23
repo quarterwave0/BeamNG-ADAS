@@ -1,7 +1,7 @@
 import numpy as np
 
-def laneDetection(image, sliceWidth):
 
+def laneDetection(image, sliceWidth):
     # Histogram computation
     laneBoundaries = []  # [ [leftIndex, rightIndex, midIndex, RowIndex] ]
 
@@ -14,20 +14,18 @@ def laneDetection(image, sliceWidth):
         except:
             maxL = 0
 
-
         try:
             maxR = np.min(np.argwhere(histo[400:800] > 10)) + 400  # find the leftmost value that is above ten
         except:
             maxR = 0
 
-        print(maxL, maxR)
-        if(maxL < maxR and abs(maxL-maxR)>90 and abs(maxL-maxR)<800 and maxL < 1060 and maxR > 460):
-
+        if maxL < maxR and abs(maxL - maxR) > 90 and abs(maxL - maxR) < 800 and maxL < 1060 and maxR > 460:
             maxMid = (maxL + maxR) // 2
 
             laneBoundaries.append([maxL, maxR, maxMid, i * sliceWidth])
 
     return laneBoundaries
+
 
 if __name__ == '__main__':
     import cv2
@@ -54,5 +52,3 @@ if __name__ == '__main__':
 
         if cv2.waitKey(1) == 27:
             break
-
-
