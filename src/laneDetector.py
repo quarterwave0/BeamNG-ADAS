@@ -5,8 +5,8 @@ def laneDetection(image, sliceWidth):
     # Histogram computation
     laneBoundaries = []  # [ [leftIndex, rightIndex, midIndex, RowIndex] ]
 
-    for i in range(900 // sliceWidth):
-        sliceFrame = image[i * sliceWidth:i * sliceWidth + sliceWidth]
+    for i in range(900 // sliceWidth):  # cut the image into height based slices
+        sliceFrame = image[i * sliceWidth:i * sliceWidth + sliceWidth]  # bottom of slice to the top of the next one
         histo = np.sum(sliceFrame, axis=0)
 
         try:
@@ -19,10 +19,11 @@ def laneDetection(image, sliceWidth):
         except:
             maxR = 0
 
+        # check that they aren't too close, aren't too far, and are on the right areas of their sections
         if maxL < maxR and abs(maxL - maxR) > 90 and abs(maxL - maxR) < 800 and maxL < 1060 and maxR > 460:
-            maxMid = (maxL + maxR) // 2
+            maxMid = (maxL + maxR) // 2  # computing midpoint
 
-            laneBoundaries.append([maxL, maxR, maxMid, i * sliceWidth])
+            laneBoundaries.append([maxL, maxR, maxMid, i * sliceWidth])  # lane boundaries and the y coordinate
 
     return laneBoundaries
 

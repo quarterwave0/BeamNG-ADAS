@@ -1,24 +1,27 @@
 import cv2
 import numpy as np
 
-whiteLower = np.array([0, 0, 170]) #v 220
-whiteUpper = np.array([80, 10, 255]) #s 2 for wcusa
+# Color filters for the lane
+whiteLower = np.array([0, 0, 170])
+whiteUpper = np.array([80, 10, 255])  # s=2 for wcusa
 
-shadowLower = np.array([90, 15, 170]) #190
+shadowLower = np.array([90, 15, 170])
 shadowUpper = np.array([179, 255, 255])
 
-#yellowLower = np.array([15, 90, 130])
 yellowLower = np.array([15, 90, 190])
 yellowUpper = np.array([179, 255, 255])
 
+# Shape of frame we are transforming to
 targetFrame = np.float32([[0, 900], [800, 900], [800, 0], [0, 0]])
-def imgFilter(rawImage, pinch):
 
+
+def imgFilter(rawImage, pinch):
     # Crop raw image
     croppedImage = rawImage[500:700, 200:1720]
 
-    # Transform
-    transformFrame = np.float32([[1250, 200], [270, 200], [300 + pinch, 10], [1220 - pinch, 10]]) # todo: more customization for this
+    # Perspective transformation
+    transformFrame = np.float32(
+        [[1250, 200], [270, 200], [300 + pinch, 10], [1220 - pinch, 10]])  # todo: more customization for this
 
     transformationMatrix = cv2.getPerspectiveTransform(transformFrame, targetFrame)
     transformedFrame = cv2.warpPerspective(croppedImage, transformationMatrix, (800, 900))
